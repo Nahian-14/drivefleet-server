@@ -9,6 +9,7 @@ const carsRouter = require('./routes/cars.route');
 const bookingsRouter = require('./routes/bookings.route');
 
 const app = express();
+app.set('trust proxy', 1);
 
 // ── Middleware ────────────────────────────────────────────────────────────────
 app.use(cors({
@@ -18,8 +19,10 @@ app.use(cors({
   ].filter(Boolean),
   credentials: true,
 }));
+app.options('*', cors());
 app.use(express.json());
 app.use(cookieParser());
+
 
 // ── MongoDB (connect once, reuse across requests) ─────────────────────────────
 const client = new MongoClient(process.env.MONGODB_URI, {
